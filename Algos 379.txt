@@ -1,0 +1,94 @@
+DFS_VISIT(G, u)
+Time = time+1
+U.d = time
+U.colour = GREY
+For each vertex v in G.Adj[u]
+	if v.colour == WHITE
+		v.pi = u
+		DFS_VISIT(G, v)
+Time = time + 1
+U.f = time
+U.colour = BLACK
+
+INNER FOR LOOP FOR DFS_VISIT(G, u)
+
+For (Edge *edge = g->v[u].adj; edge != NULL; edge ->next){
+	int v = edge ->vertex;
+	if(g->v[v].colour == WHITE){
+		g->v[v].pred = u;
+		DFS_VISIT(g, v);
+	}
+}
+--------------------------------------------------------------------------------------
+BFS(G, s)
+ENQUEUE(Q, s)
+While Q != 0
+	u = DEQUEUE(Q)
+	for each vertex v in G.Adj[u]
+		if v.colour == WHITE
+			v.colour = GREY
+			v.pred = u
+			v.d = u.d + 1
+			ENQUEUE(Q, v)
+	u.colour = BLACK
+
+INNER FOR LOOP FOR BFS(G, s)
+For (Edge *edge = g->v[u].adj; edge != NULL; edge = edge ->next){
+	int v = edge ->vertex;
+	if (g->v[v].colour == WHITE){
+		g->v[v].pred = u;
+		g->v[v].colour = GREY;
+		g->v[v].d = g->v[u].d + 1;
+		Enqueue(q, v);
+	}
+}
+--------------------------------------------------------------------------------------
+BELLMAN-FORD(G, w, s)
+INITIALIZE-SINGLE-SOURCE(G,s)
+For I = 1 to |G.V|-1
+	for each edge (u,v) in G.E
+		if v.d > u.d + w(u,v)
+			v.d = ud. + w(u,v)
+			v.pred = u
+For each edge (u,v) in G.E
+	if v.d > u.d + w(u,v)
+		return false
+Return true
+
+INNER FOR LOOP FOR BELLMAN-FORD(G, w, s)
+For (int u = 0; u < g->num_vertices; u++){
+	Edge *edge = g->v[u].adj;
+	while(edge != NULL){
+		int v = edge->vertex;
+		int w = edge->weight;
+		if(g->v[v].d > g->[u].d + w){
+			g->v[d].d = g->v[u].d + w;
+			g->v[v].pred = u;
+		}
+		edge = edge->next;
+	}
+}
+
+--------------------------------------------------------------------------------------
+MST-KRUSKAL(G, w)
+A = 0
+For each vertex v in G.V
+	MAKE-SET(v)
+Create a single list of the edges in G.E
+Sort the list of edges into monotonically increasing order by weight w
+For each edge(u,v) taken from the sorted list in order
+	if FIND-SET(u) != FIND-SET(v)
+		A = A U {(u,v)}
+		UNION(u,v)
+Return A
+
+INNER FOR LOOP FOR MST KRUSKALS
+Edge *sortedEdges = //assume edges are already sorted by weight
+for(int i = 0; i < g->num_vertices; I++){
+	int u = sortedEdges[I].vertex;
+	int v = sortedEdges[I].otherVertex;
+	if(FindSet(u) != FindSet(v)){
+		AddToMST(u, v);
+		Union(u, v);
+	}
+}
